@@ -3,6 +3,7 @@ import ShowDisplay from '@/components/ShowDisplay.vue'
 import { computed, onMounted } from 'vue'
 import { useShowsStore } from './stores/shows.store'
 import OrderSelect from './components/OrderSelect.vue'
+import SearchShows from './components/SearchShows.vue'
 
 const shows = useShowsStore()
 
@@ -17,7 +18,10 @@ const genres = computed(() => Object.keys(shows.genreBasedShows))
 
 <template>
   <main>
-    <OrderSelect></OrderSelect>
+    <div class="configuration">
+      <SearchShows></SearchShows>
+      <OrderSelect></OrderSelect>
+    </div>
 
     <div class="genre" v-for="genre in genres" :key="genre">
       <h1>{{ genre }}</h1>
@@ -34,6 +38,13 @@ const genres = computed(() => Object.keys(shows.genreBasedShows))
 </template>
 
 <style lang="scss" scoped>
+.configuration {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .genre {
   margin-bottom: 40px;
 

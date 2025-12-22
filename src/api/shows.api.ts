@@ -1,4 +1,4 @@
-import { type Show } from './types'
+import { type ShowWithScore, type Show } from './types'
 
 export async function getShows(page: number): Promise<Show[]> {
   const url = import.meta.env.VITE_TVMAZE_BASE_URL + `shows?page=${page}`
@@ -11,6 +11,22 @@ export async function getShows(page: number): Promise<Show[]> {
     }
 
     return (await response.json()) as Show[]
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function searchShows(query: string): Promise<ShowWithScore[]> {
+  const url = import.meta.env.VITE_TVMAZE_BASE_URL + `search/shows?q=${query}`
+
+  try {
+    const response = await fetch(url)
+
+    if (!response.ok) {
+      throw new Error(`API error: searchShows() returned status ${response.status}`)
+    }
+
+    return (await response.json()) as ShowWithScore[]
   } catch (error) {
     throw error
   }

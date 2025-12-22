@@ -21,7 +21,7 @@ defineProps({
       <h4>{{ show.status }}</h4>
     </div>
 
-    <div class="rating">
+    <div v-if="show.rating.average" class="rating">
       <font-awesome-icon icon="fa-solid fa-star" />
 
       <span class="score">{{ show.rating.average }}</span>

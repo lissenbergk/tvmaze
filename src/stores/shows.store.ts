@@ -1,11 +1,12 @@
-import { getShows } from '@/api/shows.api'
-import { type Show } from '@/types/types'
+import { getShows, searchShows } from '@/api/shows.api'
+import { type Show, type ShowWithScore } from '@/types/types'
 import { defineStore } from 'pinia'
 import { useSettingsStore } from './settings.store'
 
 export const useShowsStore = defineStore('shows', {
   state: () => ({
     shows: [] as Show[],
+    searchedShows: [] as Show[],
     lastFetchedPage: 0 as number,
   }),
 
@@ -15,7 +16,7 @@ export const useShowsStore = defineStore('shows', {
       const settingsStore = useSettingsStore()
       const sortingOrder = settingsStore.sortingOrder
 
-      for (const show of state.shows) {
+      for (const show of this.showsBasedOnSource) {
         for (const genre of show.genres) {
           if (!genreBasedShows[genre]) {
             genreBasedShows[genre] = []
@@ -35,6 +36,13 @@ export const useShowsStore = defineStore('shows', {
 
       return genreBasedShows
     },
+
+    showsBasedOnSource(state) {
+      const settingsStore = useSettingsStore()
+      const showsSource = settingsStore.source
+
+      return showsSource === 'search' ? state.searchedShows : state.shows
+    },
   },
 
   actions: {
@@ -45,8 +53,25 @@ export const useShowsStore = defineStore('shows', {
       this.incrementLastFetchedPage()
     },
 
+    async searchShows(query: string) {
+      const settingsStore = useSettingsStore()
+      const showsWithScoreFromAPI: ShowWithScore[] = await searchShows(query)
+
+      console.log(showsWithScoreFromAPI)
+
+      const showsFromAPI: Show[] = showsWithScoreFromAPI.map(
+        (showWithRating: ShowWithScore) => showWithRating.show,
+      )
+
+      console.log(showsFromAPI)
+
+      this.searchedShows = showsFromAPI
+    },
+
     incrementLastFetchedPage() {
       this.lastFetchedPage++
     },
   },
+
+  persist: true,
 })

@@ -12,11 +12,16 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
+import piniaPluginPersistedState from 'pinia-plugin-persistedstate'
+
 library.add(fas, far, fab)
 
 const app = createApp(App)
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedState)
 
 app.use(createPinia())
+pinia
 app.use(router)
 
 app.mount('#app')

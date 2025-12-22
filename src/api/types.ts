@@ -66,3 +66,8 @@ export type Show = {
   updated: number
   _links: Links
 }
+
+export type ShowWithScore = {
+  score: number
+  show: Show
+}
