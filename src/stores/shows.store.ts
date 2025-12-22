@@ -1,6 +1,7 @@
 import { getShows } from '@/api/shows.api'
 import { type Show } from '@/types/types'
 import { defineStore } from 'pinia'
+import { useSettingsStore } from './settings.store'
 
 export const useShowsStore = defineStore('shows', {
   state: () => ({
@@ -11,6 +12,8 @@ export const useShowsStore = defineStore('shows', {
   getters: {
     genreBasedShows(state) {
       const genreBasedShows = {}
+      const settingsStore = useSettingsStore()
+      const sortingOrder = settingsStore.sortingOrder
 
       for (const show of state.shows) {
         for (const genre of show.genres) {
@@ -20,6 +23,14 @@ export const useShowsStore = defineStore('shows', {
 
           genreBasedShows[genre].push(show)
         }
+      }
+
+      for (const genre of Object.keys(genreBasedShows)) {
+        genreBasedShows[genre] = genreBasedShows[genre].sort((a: Show, b: Show) =>
+          sortingOrder === 'asc'
+            ? a.rating.average - b.rating.average
+            : b.rating.average - a.rating.average,
+        )
       }
 
       return genreBasedShows

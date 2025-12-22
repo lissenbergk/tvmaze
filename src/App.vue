@@ -2,6 +2,7 @@
 import ShowDisplay from '@/components/ShowDisplay.vue'
 import { computed, onMounted } from 'vue'
 import { useShowsStore } from './stores/shows.store'
+import OrderSelect from './components/OrderSelect.vue'
 
 const shows = useShowsStore()
 
@@ -16,6 +17,8 @@ const genres = computed(() => Object.keys(shows.genreBasedShows))
 
 <template>
   <main>
+    <OrderSelect></OrderSelect>
+
     <div class="genre" v-for="genre in genres" :key="genre">
       <h1>{{ genre }}</h1>
 
