@@ -8,6 +8,24 @@ export const useShowsStore = defineStore('shows', {
     lastFetchedPage: 0 as number,
   }),
 
+  getters: {
+    genreBasedShows(state) {
+      const genreBasedShows = {}
+
+      for (const show of state.shows) {
+        for (const genre of show.genres) {
+          if (!genreBasedShows[genre]) {
+            genreBasedShows[genre] = []
+          }
+
+          genreBasedShows[genre].push(show)
+        }
+      }
+
+      return genreBasedShows
+    },
+  },
+
   actions: {
     async getShows() {
       const showsFromAPI = await getShows(this.lastFetchedPage)

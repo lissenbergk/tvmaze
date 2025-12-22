@@ -58,8 +58,8 @@ export type Show = {
   rating: Rating
   weight: number
   network: Network | null
-  webChannel: any | null
-  dvdCountry: any | null
+  webChannel: null
+  dvdCountry: null
   externals: Externals
   image: Image | null
   summary: string | null
