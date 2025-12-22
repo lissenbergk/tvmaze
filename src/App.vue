@@ -4,6 +4,8 @@ import { computed, onMounted } from 'vue'
 import { useShowsStore } from './stores/shows.store'
 import OrderSelect from './components/OrderSelect.vue'
 import SearchShows from './components/SearchShows.vue'
+import ShowModal from './components/ShowModal.vue'
+import { ref } from 'vue'
 
 const shows = useShowsStore()
 
@@ -14,9 +16,24 @@ onMounted(() => {
 })
 
 const genres = computed(() => Object.keys(shows.genreBasedShows))
+
+const showModal = ref(false)
+const selectedShowId = ref(null)
+
+const handleClick = (showId: number) => {
+  selectedShowId.value = showId
+  showModal.value = true
+}
 </script>
 
 <template>
+  <ShowModal
+    v-if="selectedShowId"
+    @close-modal="showModal = false"
+    :visible="showModal"
+    :show-id="selectedShowId"
+  ></ShowModal>
+
   <main>
     <div class="configuration">
       <SearchShows></SearchShows>
@@ -28,6 +45,7 @@ const genres = computed(() => Object.keys(shows.genreBasedShows))
 
       <div class="show-grid">
         <ShowDisplay
+          @click="handleClick(show.id)"
           :show="show"
           v-for="show in shows.genreBasedShows[genre]"
           :key="`show-${show.id}`"
@@ -56,6 +74,8 @@ const genres = computed(() => Object.keys(shows.genreBasedShows))
     display: flex;
     gap: 20px;
     overflow: auto;
+    padding-top: 15px;
+    margin-top: -15px;
   }
 }
 </style>

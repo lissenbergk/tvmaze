@@ -21,7 +21,7 @@ defineProps({
       <h4>{{ show.status }}</h4>
     </div>
 
-    <div v-if="show.rating.average" class="rating">
+    <div v-if="show.rating" class="rating">
       <font-awesome-icon icon="fa-solid fa-star" />
 
       <span class="score">{{ show.rating.average }}</span>
@@ -37,11 +37,14 @@ defineProps({
   position: relative;
   flex-direction: column;
   border-radius: 10px;
+  transition: transform 0.25s ease-in-out;
 
   img {
     border-radius: 10px;
     aspect-ratio: 2 / 3;
     max-width: 300px;
+    transition: filter 0.25s ease-in-out;
+    filter: brightness(90%) saturate(90%);
   }
 
   .text {
@@ -85,6 +88,15 @@ defineProps({
 
     .score {
       color: var(--vt-c-white);
+    }
+  }
+
+  &:hover {
+    transform: translateY(-3%);
+
+    img {
+      cursor: pointer;
+      filter: brightness(110%) saturate(110%);
     }
   }
 }

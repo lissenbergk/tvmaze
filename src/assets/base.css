@@ -36,6 +36,7 @@
   --section-gap: 160px;
 
   --color-gold: #ffd700;
+  --color-red: #df0000;
 }
 
 @media (prefers-color-scheme: dark) {

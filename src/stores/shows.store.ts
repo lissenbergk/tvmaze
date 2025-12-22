@@ -71,6 +71,12 @@ export const useShowsStore = defineStore('shows', {
     incrementLastFetchedPage() {
       this.lastFetchedPage++
     },
+
+    getShowById(id: number) {
+      const mergedShows = [...this.shows, ...this.searchedShows]
+
+      return mergedShows.find((show) => show.id === id)
+    },
   },
 
   persist: true,
