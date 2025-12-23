@@ -45,16 +45,39 @@ defineProps({
     max-width: 300px;
     transition: filter 0.25s ease-in-out;
     filter: brightness(90%) saturate(90%);
+
+    @include breakpoint(medium) {
+      max-width: 200px;
+    }
+
+    @include breakpoint(small) {
+      max-width: 100px;
+    }
   }
 
   .text {
     position: absolute;
     top: 10px;
+    right: 10px;
     left: 10px;
     border-radius: 10px;
     background-color: rgb(0 0 0 / 0.5);
     padding: 10px;
     max-width: 60%;
+
+    @include breakpoint(medium) {
+      max-width: 100%;
+    }
+
+    @include breakpoint(small) {
+      h2 {
+        font-size: 14px;
+      }
+
+      h4 {
+        display: none;
+      }
+    }
 
     h2,
     h4 {
@@ -80,6 +103,17 @@ defineProps({
     border-radius: 10px;
     background-color: rgb(0 0 0 / 0.5);
     padding: 10px;
+
+    @include breakpoint(medium) {
+      bottom: 10px;
+      left: 10px;
+      top: unset;
+      right: unset;
+    }
+
+    @include breakpoint(small) {
+      font-size: 12px;
+    }
 
     svg {
       margin-right: 5px;

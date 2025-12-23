@@ -39,6 +39,7 @@ const resetType = () => {
 <style lang="scss" scoped>
 .search {
   display: flex;
+  flex-wrap: nowrap;
   gap: 10px;
 
   button {
@@ -47,6 +48,7 @@ const resetType = () => {
     border-radius: 25px;
     border: 1px solid var(--vt-c-white-mute);
     transition: all 0.25s ease-in-out;
+    flex-shrink: 0;
 
     &:hover {
       border: 1px solid var(--vt-c-white);
@@ -57,6 +59,7 @@ const resetType = () => {
   }
 
   form {
+    display: flex;
     border-collapse: collapse;
 
     input {
@@ -66,6 +69,10 @@ const resetType = () => {
       outline: unset;
       padding: 5px 10px;
       color: var(--vt-c-white);
+
+      @include breakpoint(small) {
+        font-size: 10px;
+      }
     }
 
     button {

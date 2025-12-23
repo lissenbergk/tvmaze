@@ -37,7 +37,7 @@ const showObject = computed(() => showsStore.getShowById(props.showId))
           </li>
         </ul>
 
-        <div v-html="showObject.summary"></div>
+        <p v-html="showObject.summary"></p>
       </div>
 
       <font-awesome-icon
@@ -51,7 +51,7 @@ const showObject = computed(() => showsStore.getShowById(props.showId))
 
 <style lang="scss" scoped>
 .modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   margin: unset;
@@ -71,19 +71,31 @@ const showObject = computed(() => showsStore.getShowById(props.showId))
   overflow-y: hidden;
 
   .inner-modal {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    margin: 5% 25%;
+    display: flex;
+    margin: 60px auto;
+    max-width: 60%;
     padding: 40px;
     background: var(--vt-c-black);
     border-radius: 10px;
     gap: 40px;
     height: fit-content;
     position: relative;
+    overflow: visible;
+
+    @include breakpoint(large) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      img {
+        display: none;
+      }
+    }
 
     img {
       aspect-ratio: 2 / 3;
-      max-width: 300px;
+      width: 300px;
+      height: 400px;
       border-radius: 10px;
       padding: 2px;
       border: 1px solid var(--color-text);
@@ -93,7 +105,12 @@ const showObject = computed(() => showsStore.getShowById(props.showId))
       h1 {
         color: var(--vt-c-white);
         font-weight: 600;
+
+        @include breakpoint(medium) {
+          font-size: 24px;
+        }
       }
+
       .tags {
         list-style: none;
         display: flex;
@@ -101,6 +118,10 @@ const showObject = computed(() => showsStore.getShowById(props.showId))
         flex-wrap: wrap;
         margin: 10px 0 20px 0;
         gap: 10px;
+
+        @include breakpoint(medium) {
+          font-size: 12px;
+        }
 
         .tag {
           padding: 0 10px;
@@ -116,6 +137,12 @@ const showObject = computed(() => showsStore.getShowById(props.showId))
               color: var(--color-gold);
             }
           }
+        }
+      }
+
+      @include breakpoint(medium) {
+        p {
+          font-size: 12px;
         }
       }
     }

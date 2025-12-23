@@ -53,6 +53,23 @@ export const useShowsStore = defineStore('shows', {
       this.incrementLastFetchedPage()
     },
 
+    async getMoreShows(genre: string, newEntries: number) {
+      const initialCount = this.genreBasedShows[genre] ? this.genreBasedShows[genre].length : 0
+
+      while (true) {
+        const showsFromAPI = await getShows(this.lastFetchedPage)
+
+        this.shows.push(...showsFromAPI)
+        this.incrementLastFetchedPage()
+
+        const currentCount = this.genreBasedShows[genre] ? this.genreBasedShows[genre].length : 0
+
+        if (currentCount - initialCount >= newEntries) {
+          break
+        }
+      }
+    },
+
     async searchShows(query: string) {
       const settingsStore = useSettingsStore()
       const showsWithScoreFromAPI: ShowWithScore[] = await searchShows(query)
