@@ -96,7 +96,6 @@ export const useShowsStore = defineStore('shows', {
     },
 
     async searchShows(query: string) {
-      const settingsStore = useSettingsStore()
       const showsWithScoreFromAPI: ShowWithScore[] = await searchShows(query)
 
       const showsFromAPI: Show[] = showsWithScoreFromAPI.map(
@@ -124,7 +123,7 @@ export const useShowsStore = defineStore('shows', {
   },
 
   persist: {
-    beforeHydrate: (ctx) => {
+    beforeHydrate: () => {
       const persistedData = localStorage.getItem('shows')
 
       if (persistedData) {

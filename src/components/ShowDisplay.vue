@@ -14,7 +14,7 @@ defineProps({
 
 <template>
   <div class="show-display">
-    <img :src="show.image.original" />
+    <img :src="show?.image?.original" />
 
     <div class="text">
       <h2>{{ show.name }}</h2>
@@ -36,15 +36,15 @@ defineProps({
   display: flex;
   position: relative;
   flex-direction: column;
-  border-radius: 10px;
   transition: transform 0.25s ease-in-out;
+  border-radius: 10px;
 
   img {
+    filter: brightness(90%) saturate(90%);
+    transition: filter 0.25s ease-in-out;
     border-radius: 10px;
     aspect-ratio: 2 / 3;
     max-width: 300px;
-    transition: filter 0.25s ease-in-out;
-    filter: brightness(90%) saturate(90%);
 
     @include breakpoint(medium) {
       max-width: 200px;
@@ -105,10 +105,10 @@ defineProps({
     padding: 10px;
 
     @include breakpoint(medium) {
-      bottom: 10px;
-      left: 10px;
       top: unset;
       right: unset;
+      bottom: 10px;
+      left: 10px;
     }
 
     @include breakpoint(small) {
@@ -129,8 +129,8 @@ defineProps({
     transform: translateY(-3%);
 
     img {
-      cursor: pointer;
       filter: brightness(110%) saturate(110%);
+      cursor: pointer;
     }
   }
 }
