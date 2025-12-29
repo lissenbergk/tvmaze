@@ -55,7 +55,7 @@ export type Show = {
   ended: string | null
   officialSite: string | null
   schedule: Schedule
-  rating: Rating
+  rating: Rating | null
   weight: number
   network: Network | null
   webChannel: null

@@ -35,7 +35,7 @@ const showObject = computed(() => (props.showId ? showsStore.getShowById(props.s
           <li class="tag rating-tag">
             <font-awesome-icon icon="fa-solid fa-star" />
 
-            {{ showObject?.rating.average }}/10
+            {{ showObject?.rating?.average }}/10
           </li>
         </ul>
 

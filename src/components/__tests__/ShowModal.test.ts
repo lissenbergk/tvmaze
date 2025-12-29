@@ -69,4 +69,10 @@ describe('component: ShowModal', () => {
 
     expect(wrapper.find('.inner-modal').exists()).toBe(false)
   })
+
+  it('does not render image when show has no image', () => {
+    const wrapper = createWrapper({ showId: 10 })
+
+    expect(wrapper.find('img').exists()).toBe(false)
+  })
 })

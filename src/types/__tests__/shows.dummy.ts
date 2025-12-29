@@ -513,9 +513,7 @@ export const dummyShows: Show[] = [
       time: '20:00',
       days: ['Friday'],
     },
-    rating: {
-      average: 8.4,
-    },
+    rating: null,
     weight: 98,
     network: {
       id: 1,
@@ -534,10 +532,7 @@ export const dummyShows: Show[] = [
       thetvdb: 248736,
       imdb: 'tt1830617',
     },
-    image: {
-      medium: 'https://static.tvmaze.com/uploads/images/medium_portrait/69/174906.jpg',
-      original: 'https://static.tvmaze.com/uploads/images/original_untouched/69/174906.jpg',
-    },
+    image: null,
     summary:
       '<p><b>Grimm </b>is a drama series inspired by the classic Grimm Brothers\' Fairy Tales. After Portland homicide detective Nick Burkhardt discovers he\'s descended from an elite line of criminal profilers known as "Grimms", he increasingly finds his responsibilities as a detective at odds with his new responsibilities as a Grimm.</p>',
     updated: 1745517140,
