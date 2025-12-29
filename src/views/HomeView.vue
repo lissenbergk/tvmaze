@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import ShowDisplay from '@/components/ShowDisplay.vue'
-import { computed, onMounted } from 'vue'
-import { useShowsStore } from '@/stores/shows.store'
 import OrderSelect from '@/components/OrderSelect.vue'
 import SearchShows from '@/components/SearchShows.vue'
+import ShowDisplay from '@/components/ShowDisplay.vue'
 import ShowModal from '@/components/ShowModal.vue'
-import { ref } from 'vue'
+import { useShowsStore } from '@/stores/shows.store'
+import { computed, onMounted, ref } from 'vue'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -19,10 +18,10 @@ onMounted(() => {
 
 const genres = computed(() => Object.keys(shows.genreBasedShows))
 
-const showModal = ref(false)
-const selectedShowId = ref(null)
+const showModal = ref<boolean>(false)
+const selectedShowId = ref<number | null>(null)
 
-const handleClick = (showId: number) => {
+const handleClick = (showId: number): void => {
   selectedShowId.value = showId
   showModal.value = true
 }
@@ -49,13 +48,13 @@ const handleClick = (showId: number) => {
         <ShowDisplay
           @click="handleClick(show.id)"
           :show="show"
-          v-for="show in shows.genreBasedShows[genre]"
+          v-for="show in shows.getVisibleShowsForGenre(genre)"
           :key="`show-${show.id}`"
         ></ShowDisplay>
 
         <font-awesome-icon
           class="load-more-button"
-          @click="shows.getMoreShows(genre, 10)"
+          @click="shows.getShowsForGenre(genre, 10)"
           icon="fa-solid fa-angle-right"
         />
       </div>
@@ -87,28 +86,28 @@ const handleClick = (showId: number) => {
   .show-grid {
     display: flex;
     gap: 20px;
-    overflow: auto;
-    padding-top: 15px;
     margin-top: -15px;
+    padding-top: 15px;
+    overflow: auto;
 
     .load-more-button {
-      height: 20px;
-      width: 20px;
-      padding: 10px;
-      border-radius: 25px;
-      border: 1px solid var(--vt-c-white-mute);
-      transition: all 0.25s ease-in-out;
       flex-shrink: 0;
-      border: 1px solid var(--vt-c-black);
-      background-color: var(--vt-c-white);
-      color: var(--vt-c-black);
       align-self: center;
+      transition: all 0.25s ease-in-out;
+      border: 1px solid var(--vt-c-white-mute);
+      border: 1px solid var(--vt-c-black);
+      border-radius: 25px;
+      background-color: var(--vt-c-white);
+      padding: 10px;
+      width: 20px;
+      height: 20px;
+      color: var(--vt-c-black);
 
       &:hover {
+        cursor: pointer;
         border: 1px solid var(--vt-c-white);
         background-color: var(--vt-c-black);
         color: var(--vt-c-white);
-        cursor: pointer;
       }
     }
   }

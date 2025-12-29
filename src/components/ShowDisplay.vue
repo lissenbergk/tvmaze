@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Show } from '@/api/types'
+import type { Show } from '@/types/types'
 import type { PropType } from 'vue'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

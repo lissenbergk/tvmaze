@@ -15,7 +15,7 @@ const showObject = computed(() => showsStore.getShowById(props.showId))
 
 <template>
   <div v-show="visible" class="modal">
-    <div class="inner-modal" @click="">
+    <div class="inner-modal">
       <img v-if="showObject?.image" :src="showObject.image.original" />
 
       <div class="show-details">

@@ -8,11 +8,13 @@ export const useShowsStore = defineStore('shows', {
     shows: [] as Show[],
     searchedShows: [] as Show[],
     lastFetchedPage: 0 as number,
+    genreLoadedCounts: {} as Record<string, number>,
+    cacheDate: undefined as Date | undefined,
   }),
 
   getters: {
-    genreBasedShows(state) {
-      const genreBasedShows = {}
+    genreBasedShows() {
+      const genreBasedShows: Record<string, Show[]> = {}
       const settingsStore = useSettingsStore()
       const sortingOrder = settingsStore.sortingOrder
 
@@ -27,11 +29,13 @@ export const useShowsStore = defineStore('shows', {
       }
 
       for (const genre of Object.keys(genreBasedShows)) {
-        genreBasedShows[genre] = genreBasedShows[genre].sort((a: Show, b: Show) =>
-          sortingOrder === 'asc'
-            ? a.rating.average - b.rating.average
-            : b.rating.average - a.rating.average,
-        )
+        if (genreBasedShows[genre]) {
+          genreBasedShows[genre] = genreBasedShows[genre].sort((a: Show, b: Show) => {
+            const ratingA = a.rating?.average ?? 0
+            const ratingB = b.rating?.average ?? 0
+            return sortingOrder === 'asc' ? ratingA - ratingB : ratingB - ratingA
+          })
+        }
       }
 
       return genreBasedShows
@@ -51,6 +55,27 @@ export const useShowsStore = defineStore('shows', {
 
       this.shows.push(...showsFromAPI)
       this.incrementLastFetchedPage()
+      this.setCacheDate()
+    },
+
+    async getShowsForGenre(genre: string, limit: number = 10) {
+      const currentCount = this.genreLoadedCounts[genre] || 0
+      const availableCount = this.genreBasedShows[genre]?.length || 0
+
+      if (availableCount >= currentCount + limit) {
+        this.genreLoadedCounts[genre] = currentCount + limit
+        return
+      }
+
+      const neededCount = currentCount + limit - availableCount
+      await this.getMoreShows(genre, neededCount)
+      this.genreLoadedCounts[genre] = currentCount + limit
+    },
+
+    getVisibleShowsForGenre(genre: string): Show[] {
+      const loadedCount = this.genreLoadedCounts[genre] || 10
+      const allShowsForGenre = this.genreBasedShows[genre] || []
+      return allShowsForGenre.slice(0, loadedCount)
     },
 
     async getMoreShows(genre: string, newEntries: number) {
@@ -74,19 +99,21 @@ export const useShowsStore = defineStore('shows', {
       const settingsStore = useSettingsStore()
       const showsWithScoreFromAPI: ShowWithScore[] = await searchShows(query)
 
-      console.log(showsWithScoreFromAPI)
-
       const showsFromAPI: Show[] = showsWithScoreFromAPI.map(
         (showWithRating: ShowWithScore) => showWithRating.show,
       )
-
-      console.log(showsFromAPI)
 
       this.searchedShows = showsFromAPI
     },
 
     incrementLastFetchedPage() {
       this.lastFetchedPage++
+    },
+
+    setCacheDate() {
+      if (!this.cacheDate) {
+        this.cacheDate = new Date()
+      }
     },
 
     getShowById(id: number) {
@@ -96,5 +123,24 @@ export const useShowsStore = defineStore('shows', {
     },
   },
 
-  persist: true,
+  persist: {
+    beforeHydrate: (ctx) => {
+      const persistedData = localStorage.getItem('shows')
+
+      if (persistedData) {
+        const data = JSON.parse(persistedData)
+        const cacheDate = data.cacheDate
+
+        if (cacheDate) {
+          const cacheAge = Date.now() - new Date(cacheDate).getTime()
+          const maxAge = 24 * 3600 * 1000
+
+          if (cacheAge > maxAge) {
+            console.log('📺 Cache expired, clearing storage')
+            localStorage.removeItem('shows')
+          }
+        }
+      }
+    },
+  },
 })
