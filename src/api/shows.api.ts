@@ -1,4 +1,4 @@
-import { type ShowWithScore, type Show } from '@/types/types'
+import { type Show, type ShowWithScore } from '@/types/types'
 
 export async function getShows(page: number): Promise<Show[]> {
   const url = import.meta.env.VITE_TVMAZE_BASE_URL + `shows?page=${page}`

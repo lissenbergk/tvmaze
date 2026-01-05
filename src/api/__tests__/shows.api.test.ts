@@ -1,6 +1,6 @@
-import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { getShows, searchShows } from '../shows.api'
 import { dummyShows } from '@/types/__tests__/shows.dummy'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { getShows, searchShows } from '../shows.api'
 
 describe('api: shows', () => {
   const mockBaseUrl = 'https://api.tvmaze.com'
@@ -20,7 +20,8 @@ describe('api: shows', () => {
         ok: true,
         json: async () => dummyShows,
       } as Response)
-      const result = await getShows(0)
+
+      await getShows(0)
 
       expect(fetch).toHaveBeenCalledWith(`${mockBaseUrl}shows?page=0`)
     })
@@ -41,7 +42,8 @@ describe('api: shows', () => {
         ok: true,
         json: async () => dummyShows,
       } as Response)
-      const result = await searchShows('Test')
+
+      await searchShows('Test')
 
       expect(fetch).toHaveBeenCalledWith(`${mockBaseUrl}search/shows?q=Test`)
     })

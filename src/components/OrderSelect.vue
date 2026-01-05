@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useSettingsStore } from '@/stores/settings.store'
+import { computed } from 'vue'
 
 const store = useSettingsStore()
 
@@ -28,8 +28,8 @@ const order = computed({
   gap: 20px;
 
   select {
-    background-color: unset;
     border-radius: 25px;
+    background-color: unset;
     padding: 5px;
     color: var(--vt-c-white);
   }

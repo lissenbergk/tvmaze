@@ -28,7 +28,9 @@ describe('view: HomeView', () => {
 
   it('fetches shows on mount when none exist', () => {
     const getShowsSpy = vi.spyOn(showsStore, 'getShows').mockResolvedValue(undefined)
-    const wrapper = createWrapper()
+
+    createWrapper()
+
     expect(getShowsSpy).toHaveBeenCalled()
   })
 
