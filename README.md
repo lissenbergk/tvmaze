@@ -1,54 +1,42 @@
-# tvmaze
+# TVMaze
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is intended as a practice project for various techniques such as Vitest. It uses the TVMaze API as it's data source.
 
-## Recommended IDE Setup
+# Structure
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+The project uses a simple layered structure:
 
-## Recommended Browser Setup
+  * `/api` For all API related functionality such as the calls to the TVMaze API and the corresponding tests
+  * `/assets` For all assets such as global stylesheets and images
+  * `/components` For all components used in views
+  * `/router` For Vue's router configuration
+  * `/stores` For the various Pinia stores
+  * `/types` For the domain, which consists of types
+  * `/views` For the application's views/pages
+  * `App.vue` The root component
+  * `main.ts` For the configuration of Vue and the used libraries/frameworks
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+# Stack
 
-## Type Support for `.vue` Imports in TS
+The project uses the following stack:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+* **Vue 3:** Front-end framework, using the composition API
+* **Pinia:** State management
+* **Vitest:** Unit-testing framework, using it's coverage- (V8) and UI utilities.
+* **TypeScript**
+* **Fetch API:** For API handling
+* **FontAwesome:** As the icon library, using their own component
 
-## Customize configuration
+# How to run
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+The project has not been developed with the intent of deploying, therefore you need to run a local build using npm install to install dependencies and afterwards npm run dev to start a dev build.
 
-## Project Setup
+This requires you to have a local .env that houses the VITE_TVMAZE_API_BASE variable, during the build the value https://api.tvmaze.com was used.
 
-```sh
-npm install
-```
+# Additional Commands
 
-### Compile and Hot-Reload for Development
+The project also supports unit testing using Vitest, linting using ESLint and formatting using Prettier. The following npm commands are available:
 
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+* `npm run lint` will run eslint with the flags --fix and --cache
+* `npm run format` will run prettier with the flags --write --experimental-cli and on the entire project (src/)
+* `npm run test:unit` will run Vitest with the flags --coverage and --ui, this enables the UI and adds coverage details both in the CLI and in the UI.
