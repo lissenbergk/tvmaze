@@ -1,9 +1,9 @@
 import { getShows, searchShows } from '@/api/shows.api'
 import { dummyShows } from '@/types/__tests__/shows.dummy'
 import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useSettingsStore } from '../settings.store'
-import { useShowsStore } from '../shows.store'
+import { clearExpiredCache, useShowsStore } from '../shows.store'
 
 vi.mock('@/api/shows.api')
 
@@ -15,6 +15,10 @@ describe('store: shows', () => {
     setActivePinia(createPinia())
     showsStore = useShowsStore()
     settingsStore = useSettingsStore()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 
   it('provides showed based on genre in the correct order', () => {
@@ -105,5 +109,62 @@ describe('store: shows', () => {
     const visibleShows = showsStore.getVisibleShowsForGenre('Action')
 
     expect(visibleShows).toHaveLength(2)
+  })
+
+  it('returns no visible shows works when fallback values are used', () => {
+    const visibleShows = showsStore.getVisibleShowsForGenre('Action')
+
+    expect(visibleShows).toHaveLength(0)
+  })
+
+  it('returns shows for genre when available', async () => {
+    showsStore.shows = dummyShows
+
+    await showsStore.getShowsForGenre('Drama', 2)
+
+    expect(showsStore.genreLoadedCounts['Drama']).toEqual(2)
+  })
+
+  it('fetches more shows for genre if not enough shows are available', async () => {
+    const getShowsSpy = vi.mocked(getShows)
+
+    await showsStore.getShowsForGenre('Drama', 20)
+
+    expect(getShowsSpy).toHaveBeenCalled()
+  })
+
+  it('fetches more shows until enough shows are available', async () => {
+    showsStore.shows = dummyShows.slice(0, 2)
+
+    const getShowsSpy = vi
+      .mocked(getShows)
+      .mockResolvedValueOnce(dummyShows.slice(2, 4))
+      .mockResolvedValueOnce(dummyShows.slice(4, 6))
+
+    await showsStore.getMoreShows('Action', 3)
+
+    expect(getShowsSpy).toHaveBeenCalled()
+    expect(showsStore.lastFetchedPage).toBeGreaterThan(0)
+  })
+
+  it('clears expired cache', () => {
+    const mockNow = new Date('2026-01-12').getTime()
+    vi.spyOn(Date, 'now').mockReturnValue(mockNow)
+
+    const expiredDate = new Date('2026-01-05').toISOString()
+    const expiredData = JSON.stringify({
+      shows: dummyShows,
+      cacheDate: expiredDate,
+    })
+
+    const removeItemSpy = vi.spyOn(Storage.prototype, 'removeItem')
+    const getItemSpy = vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(expiredData)
+    const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+
+    clearExpiredCache()
+
+    expect(getItemSpy).toHaveBeenCalledWith('shows')
+    expect(consoleLogSpy).toHaveBeenCalledWith('📺 Cache expired, clearing storage')
+    expect(removeItemSpy).toHaveBeenCalledWith('shows')
   })
 })
