@@ -23,7 +23,7 @@ const resetType = () => {
 <template>
   <div class="search">
     <form @submit.prevent="submit">
-      <input v-model="searchQuery" placeholder="Search for shows" />
+      <input v-model="searchQuery" placeholder="Search for shows" aria-label="Search shows input" />
 
       <button>
         <font-awesome-icon icon="fa-solid fa-search" />

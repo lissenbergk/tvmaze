@@ -14,7 +14,7 @@ defineProps({
 
 <template>
   <div class="show-display">
-    <img :src="show?.image?.original" />
+    <img :src="show?.image?.original" :alt="`Show poster for ${show.name}`" />
 
     <div class="text">
       <h2>{{ show.name }}</h2>
@@ -63,7 +63,7 @@ defineProps({
     border-radius: 10px;
     background-color: rgb(0 0 0 / 0.5);
     padding: 10px;
-    max-width: 60%;
+    max-width: 55%;
 
     @include breakpoint(medium) {
       max-width: 100%;
@@ -97,9 +97,11 @@ defineProps({
   }
 
   .rating {
+    display: flex;
     position: absolute;
     top: 10px;
     right: 10px;
+    align-content: center;
     border-radius: 10px;
     background-color: rgb(0 0 0 / 0.5);
     padding: 10px;
@@ -115,8 +117,12 @@ defineProps({
       font-size: 12px;
     }
 
+    svg,
+    .score {
+      height: 22px;
+    }
+
     svg {
-      margin-right: 5px;
       color: var(--color-gold);
     }
 

@@ -61,6 +61,15 @@
   font-weight: normal;
 }
 
+*:not(:focus) {
+  border: 2px solid transparent;
+}
+
+*:focus {
+  outline: 2px solid transparent;
+  border: 2px solid white;
+}
+
 body {
   transition:
     color 0.5s,

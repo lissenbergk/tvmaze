@@ -8,8 +8,16 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      meta: {
+        title: 'Home',
+      },
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = `TVMaze | ${to.meta.title}`
+  next()
 })
 
 export default router

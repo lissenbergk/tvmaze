@@ -12,9 +12,9 @@ const order = computed({
 
 <template>
   <div class="order">
-    <p>Sort (by rating)</p>
+    <label for="order-sort">Sort (by rating)</label>
 
-    <select v-model="order">
+    <select id="order-sort" v-model="order">
       <option value="desc">Descending</option>
       <option value="asc">Ascending</option>
     </select>
@@ -26,6 +26,10 @@ const order = computed({
   display: flex;
   align-items: center;
   gap: 20px;
+
+  label {
+    
+  }
 
   select {
     border-radius: 25px;

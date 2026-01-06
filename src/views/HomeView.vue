@@ -36,13 +36,13 @@ const handleClick = (showId: number): void => {
   ></ShowModal>
 
   <main>
-    <div class="configuration">
+    <header class="configuration">
       <SearchShows></SearchShows>
       <OrderSelect></OrderSelect>
-    </div>
+    </header>
 
     <div class="genre" v-for="genre in genres" :key="genre">
-      <h1>{{ genre }}</h1>
+      <h2>{{ genre }}</h2>
 
       <div class="show-grid">
         <ShowDisplay
@@ -50,13 +50,15 @@ const handleClick = (showId: number): void => {
           :show="show"
           v-for="show in shows.getVisibleShowsForGenre(genre)"
           :key="`show-${show.id}`"
+          role="button"
+          tabindex="0"
+          @keydown.enter="handleClick(show.id)"
+          @keydown.space="handleClick(show.id)"
         ></ShowDisplay>
 
-        <font-awesome-icon
-          class="load-more-button"
-          @click="shows.getShowsForGenre(genre, 10)"
-          icon="fa-solid fa-angle-right"
-        />
+        <button aria-label="Load more shows" @click="shows.getShowsForGenre(genre, 10)">
+          <font-awesome-icon class="load-more-button" icon="fa-solid fa-angle-right" />
+        </button>
       </div>
     </div>
   </main>
@@ -79,7 +81,8 @@ const handleClick = (showId: number): void => {
 .genre {
   margin-bottom: 40px;
 
-  h1 {
+  h2 {
+    font-size: 32px;
     margin-bottom: 20px;
   }
 

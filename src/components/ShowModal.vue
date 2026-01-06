@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useShowsStore } from '@/stores/shows.store'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed } from 'vue'
+import { computed, nextTick, useTemplateRef, watch } from 'vue'
 
 const showsStore = useShowsStore()
 
@@ -11,15 +11,40 @@ const props = defineProps({
 })
 
 const showObject = computed(() => (props.showId ? showsStore.getShowById(props.showId) : undefined))
+const modal = useTemplateRef('modal')
+
+watch(
+  () => props.visible,
+  (isVisible) => {
+    if (isVisible) {
+      nextTick(() => modal?.value?.focus())
+    }
+  },
+)
 </script>
 
 <template>
-  <div v-if="showObject" v-show="visible" class="modal">
+  <div
+    v-if="showObject"
+    v-show="visible"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+    ref="modal"
+    @keyup.esc="$emit('close-modal')"
+    aria-labelledby="modal-title"
+    aria-describedby="modal-description"
+  >
     <div class="inner-modal">
-      <img v-if="showObject?.image" :src="showObject.image.original" />
+      <img
+        v-if="showObject?.image"
+        :src="showObject.image.original"
+        :alt="`Show poster for ${showObject.name}`"
+      />
 
       <div class="show-details">
-        <h1>{{ showObject?.name }}</h1>
+        <h2 id="modal-title">{{ showObject?.name }}</h2>
 
         <ul class="tags">
           <li class="tag genre-tag" :key="genre" v-for="genre in showObject?.genres">
@@ -39,14 +64,16 @@ const showObject = computed(() => (props.showId ? showsStore.getShowById(props.s
           </li>
         </ul>
 
-        <p v-html="showObject?.summary"></p>
+        <p id="modal-description" v-html="showObject?.summary"></p>
       </div>
 
-      <font-awesome-icon
-        class="exit"
-        @click="$emit('close-modal')"
-        icon="fa-regular fa-circle-xmark"
-      />
+      <button aria-label="Close dialog">
+        <font-awesome-icon
+          class="exit"
+          @click="$emit('close-modal')"
+          icon="fa-regular fa-circle-xmark"
+        />
+      </button>
     </div>
   </div>
 </template>
@@ -104,9 +131,10 @@ const showObject = computed(() => (props.showId ? showsStore.getShowById(props.s
     }
 
     .show-details {
-      h1 {
+      h2 {
         color: var(--vt-c-white);
         font-weight: 600;
+        font-size: 34px;
 
         @include breakpoint(medium) {
           font-size: 24px;
