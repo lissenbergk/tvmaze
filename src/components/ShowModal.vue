@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useShowsStore } from '@/stores/shows.store'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed, nextTick, useTemplateRef, watch } from 'vue'
+import { computed } from 'vue'
 
 const showsStore = useShowsStore()
 
@@ -10,33 +10,26 @@ const props = defineProps({
   showId: Number,
 })
 
-const showObject = computed(() => (props.showId ? showsStore.getShowById(props.showId) : undefined))
-const modal = useTemplateRef('modal')
+const emit = defineEmits(['close-modal'])
 
-watch(
-  () => props.visible,
-  (isVisible) => {
-    if (isVisible) {
-      nextTick(() => modal?.value?.focus())
-    }
-  },
-)
+const showObject = computed(() => (props.showId ? showsStore.getShowById(props.showId) : undefined))
+
+const handleClose = () => {
+  emit('close-modal')
+}
 </script>
 
 <template>
-  <div
-    v-if="showObject"
-    v-show="visible"
+  <dialog
+    v-if="visible"
+    open
     class="modal"
-    role="dialog"
-    aria-modal="true"
-    tabindex="-1"
-    ref="modal"
-    @keyup.esc="$emit('close-modal')"
+    @close="handleClose"
+    @click.self="handleClose"
     aria-labelledby="modal-title"
     aria-describedby="modal-description"
   >
-    <div class="inner-modal">
+    <div v-if="showObject" class="inner-modal">
       <img
         v-if="showObject?.image"
         :src="showObject.image.original"
@@ -67,37 +60,36 @@ watch(
         <p id="modal-description" v-html="showObject?.summary"></p>
       </div>
 
-      <button aria-label="Close dialog">
-        <font-awesome-icon
-          class="exit"
-          @click="$emit('close-modal')"
-          icon="fa-regular fa-circle-xmark"
-        />
+      <button class="exit" aria-label="Close dialog" @click="handleClose">
+        <font-awesome-icon icon="fa-regular fa-circle-xmark" />
       </button>
     </div>
-  </div>
+  </dialog>
 </template>
 
 <style lang="scss" scoped>
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: +1;
-  margin: unset;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.8) 40%,
-    rgba(0, 0, 0, 0.7) 60%,
-    rgba(0, 0, 0, 0.7) 70%,
-    rgba(0, 0, 0, 0.4) 90%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  padding: unset;
+  border: none;
+  background: transparent;
+  padding: 0;
   width: 100vw;
+  max-width: 100vw;
   height: 100vh;
-  overflow-y: hidden;
+  max-height: 100vh;
+  overflow-y: auto;
+  color: var(--color-text);
+
+  &::backdrop {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.8) 40%,
+      rgba(0, 0, 0, 0.7) 60%,
+      rgba(0, 0, 0, 0.7) 70%,
+      rgba(0, 0, 0, 0.4) 90%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
 
   .inner-modal {
     display: flex;
@@ -182,9 +174,14 @@ watch(
       top: 40px;
       right: 40px;
       transition: color 0.25s ease-in-out;
-      width: 20px;
-      height: 20px;
+      border: none;
+      background: none;
       color: var(--vt-c-white);
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
 
       &:hover {
         cursor: pointer;
