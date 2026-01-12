@@ -15,7 +15,7 @@ describe('component: ShowDisplay', () => {
 
     expect(wrapper.find('img').attributes('src')).toContain(show.image?.original)
     expect(wrapper.find('.text').find('h2').text()).toContain(show?.name)
-    expect(wrapper.find('.text').find('h4').text()).toContain(show?.status)
+    expect(wrapper.find('.text').find('h3').text()).toContain(show?.status)
     expect(wrapper.find('.rating').text()).toContain(show?.rating?.average)
   })
 
