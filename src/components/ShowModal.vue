@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useShowsStore } from '@/stores/shows.store'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 
 const showsStore = useShowsStore()
 
@@ -12,20 +12,33 @@ const props = defineProps({
 
 const emit = defineEmits(['close-modal'])
 
+const dialogRef = ref<HTMLDialogElement | null>(null)
+
 const showObject = computed(() => (props.showId ? showsStore.getShowById(props.showId) : undefined))
 
 const handleClose = () => {
   emit('close-modal')
 }
+
+watch(
+  () => props.visible,
+  async (newValue) => {
+    await nextTick()
+    if (newValue && dialogRef.value) {
+      dialogRef.value.showModal()
+    } else if (!newValue && dialogRef.value?.open) {
+      dialogRef.value.close()
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
   <dialog
-    v-if="visible"
-    open
+    ref="dialogRef"
     class="modal"
     @close="handleClose"
-    @click.self="handleClose"
     aria-labelledby="modal-title"
     aria-describedby="modal-description"
   >
@@ -69,6 +82,7 @@ const handleClose = () => {
 
 <style lang="scss" scoped>
 .modal {
+  z-index: +1;
   border: none;
   background: transparent;
   padding: 0;

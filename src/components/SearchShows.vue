@@ -25,12 +25,12 @@ const resetType = () => {
     <form @submit.prevent="submit">
       <input v-model="searchQuery" placeholder="Search for shows" aria-label="Search shows input" />
 
-      <button>
+      <button aria-label="Search">
         <font-awesome-icon icon="fa-solid fa-search" />
       </button>
     </form>
 
-    <button @click="resetType" data-testid="reset-button">
+    <button @click="resetType" data-testid="reset-button" aria-label="Reset Shows">
       <font-awesome-icon icon="fa-solid fa-rotate-left" />
     </button>
   </div>

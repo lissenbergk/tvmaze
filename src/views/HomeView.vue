@@ -35,11 +35,13 @@ const handleClick = (showId: number): void => {
     :show-id="selectedShowId"
   ></ShowModal>
 
+  <header class="configuration">
+    <SearchShows></SearchShows>
+    <OrderSelect></OrderSelect>
+  </header>
+
   <main>
-    <header class="configuration">
-      <SearchShows></SearchShows>
-      <OrderSelect></OrderSelect>
-    </header>
+    <h1>Shows</h1>
 
     <div class="genre" v-for="genre in genres" :key="genre">
       <h2>{{ genre }}</h2>
@@ -56,8 +58,12 @@ const handleClick = (showId: number): void => {
           @keydown.space="handleClick(show.id)"
         ></ShowDisplay>
 
-        <button aria-label="Load more shows" @click="shows.getShowsForGenre(genre, 10)">
-          <font-awesome-icon class="load-more-button" icon="fa-solid fa-angle-right" />
+        <button
+          class="load-more-button"
+          aria-label="Load more shows"
+          @click="shows.getShowsForGenre(genre, 10)"
+        >
+          <font-awesome-icon class="inner-load-more-button" icon="fa-solid fa-angle-right" />
         </button>
       </div>
     </div>
@@ -78,12 +84,17 @@ const handleClick = (showId: number): void => {
   }
 }
 
+h1 {
+  color: white;
+  font-size: 54px;
+}
+
 .genre {
   margin-bottom: 40px;
 
   h2 {
-    font-size: 32px;
     margin-bottom: 20px;
+    font-size: 32px;
   }
 
   .show-grid {
@@ -94,23 +105,28 @@ const handleClick = (showId: number): void => {
     overflow: auto;
 
     .load-more-button {
-      flex-shrink: 0;
-      align-self: center;
-      transition: all 0.25s ease-in-out;
-      border: 1px solid var(--vt-c-white-mute);
-      border: 1px solid var(--vt-c-black);
-      border-radius: 25px;
-      background-color: var(--vt-c-white);
-      padding: 10px;
-      width: 20px;
-      height: 20px;
-      color: var(--vt-c-black);
+      background-color: unset;
 
-      &:hover {
-        cursor: pointer;
-        border: 1px solid var(--vt-c-white);
-        background-color: var(--vt-c-black);
-        color: var(--vt-c-white);
+      .inner-load-more-button {
+        flex-shrink: 0;
+        align-self: center;
+        transition: all 0.25s ease-in-out;
+        border: 1px solid var(--vt-c-white-mute);
+        border: 1px solid var(--vt-c-black);
+        border-radius: 25px;
+        background-color: var(--vt-c-white);
+
+        padding: 10px;
+        width: 20px;
+        height: 20px;
+        color: var(--vt-c-black);
+
+        &:hover {
+          cursor: pointer;
+          border: 1px solid var(--vt-c-white);
+          background-color: var(--vt-c-black);
+          color: var(--vt-c-white);
+        }
       }
     }
   }

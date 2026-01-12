@@ -18,7 +18,7 @@ defineProps({
 
     <div class="text">
       <h2>{{ show.name }}</h2>
-      <h4>{{ show.status }}</h4>
+      <h3>{{ show.status }}</h3>
     </div>
 
     <div v-if="show.rating" class="rating">
