@@ -1,27 +1,28 @@
 @use './breakpoints.scss';
 @use './base.scss';
+@use './tokens.scss' as *;
 
 #app {
-  margin: 20px 80px;
+  margin: $spacing-5 $spacing-10;
   font-weight: normal;
 
   @include breakpoints.breakpoint(large) {
-    margin: 20px;
+    margin: $spacing-5;
   }
 
   @include breakpoints.breakpoint(medium) {
-    margin: 20px 30px;
+    margin: $spacing-5 $spacing-6;
   }
 
   @include breakpoint(small) {
-    margin: 20px;
+    margin: $spacing-4;
   }
 }
 
 a,
 .green {
-  transition: 0.4s;
-  padding: 3px;
-  color: hsla(160, 100%, 37%, 1);
+  transition: $transition-slow;
+  padding: $spacing-1;
+  color: var(--color-green);
   text-decoration: none;
 }

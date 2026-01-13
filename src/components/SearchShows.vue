@@ -40,19 +40,19 @@ const resetType = () => {
 .search {
   display: flex;
   flex-wrap: nowrap;
-  gap: 10px;
+  gap: $spacing-3;
 
   button {
     flex-shrink: 0;
-    transition: all 0.25s ease-in-out;
-    border: 1px solid var(--vt-c-white-mute);
-    border-radius: 25px;
-    padding: 5px;
+    transition: $transition-base;
+    border: $border-md solid var(--vt-c-white-mute);
+    border-radius: $radius-lg;
+    padding: $spacing-2;
     height: 100%;
 
     &:hover {
       cursor: pointer;
-      border: 1px solid var(--vt-c-white);
+      border-color: var(--vt-c-white);
       background-color: var(--vt-c-black);
       color: var(--vt-c-white);
     }
@@ -64,19 +64,20 @@ const resetType = () => {
 
     input {
       outline: unset;
-      border: 1px solid var(--vt-c-white-mute);
-      border-radius: 25px 0 0 25px;
+      border: $border-md solid var(--vt-c-white-mute);
+      border-right: unset;
+      border-radius: $radius-lg 0 0 $radius-lg;
       background-color: unset;
-      padding: 5px 10px;
+      padding: $spacing-2 $spacing-3;
       color: var(--vt-c-white);
 
       @include breakpoint(small) {
-        font-size: 10px;
+        font-size: $font-size-xs;
       }
     }
 
     button {
-      border-radius: 0 25px 25px 0;
+      border-radius: 0 $radius-lg $radius-lg 0;
     }
   }
 }

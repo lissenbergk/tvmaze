@@ -1,0 +1,61 @@
+@use 'sass:math';
+
+// Spacing
+$spacing-0: 0;
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-5: 1.5rem;
+$spacing-6: 2rem;
+$spacing-8: 3rem;
+$spacing-10: 4rem;
+$spacing-12: 6rem;
+
+// Buttons, icons
+$size-icon-sm: 1.25rem;
+$size-icon-md: 1.5rem;
+$size-icon-lg: 2rem;
+
+$size-button-sm: 2rem;
+$size-button-md: 2.5rem;
+$size-button-lg: 3.75rem;
+
+// Font sizes
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 2rem;
+$font-size-4xl: 3rem;
+
+// Border radius (relative scale)
+$radius-sm: 0.5rem;
+$radius-md: 1rem;
+$radius-lg: 1.5rem;
+$radius-full: 100%;
+
+// Borders
+$border-sm: 0.0625rem;
+$border-md: 0.125rem;
+$border-lg: 0.25rem;
+
+// Images
+$image-sm: 6rem;
+$image-md: 12rem;
+$image-lg: 20rem;
+$image-xl: 30rem;
+$image-2xl: 30rem;
+
+// Z-index scale
+$z-index-modal: 100;
+
+// Transitions (these are fine as-is since they're time values)
+$transition-fast: all 0.15s ease-in-out;
+$transition-base: all 0.25s ease-in-out;
+$transition-slow: all 0.5s ease-in-out;
+
+// Aspect ratios
+$aspect-poster: math.div(2, 3);

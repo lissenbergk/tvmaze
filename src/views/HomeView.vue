@@ -75,55 +75,60 @@ const handleClick = (showId: number): void => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: $spacing-5;
 
   @include breakpoint(small) {
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
+    gap: $spacing-5;
   }
 }
 
 h1 {
   color: white;
-  font-size: 54px;
+  font-size: $font-size-4xl;
 }
 
 .genre {
-  margin-bottom: 40px;
+  margin-bottom: $spacing-8;
 
   h2 {
-    margin-bottom: 20px;
-    font-size: 32px;
+    margin-bottom: $spacing-5;
+    font-size: $font-size-3xl;
   }
 
   .show-grid {
     display: flex;
-    gap: 20px;
-    margin-top: -15px;
-    padding-top: 15px;
+    gap: $spacing-5;
+    margin-top: -$spacing-4;
+    padding-top: $spacing-4;
     overflow: auto;
 
     .load-more-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-self: center;
       background-color: unset;
+      padding: $spacing-3;
+      width: $size-button-lg;
+      height: $size-button-lg;
 
       .inner-load-more-button {
         flex-shrink: 0;
         align-self: center;
-        transition: all 0.25s ease-in-out;
-        border: 1px solid var(--vt-c-white-mute);
-        border: 1px solid var(--vt-c-black);
-        border-radius: 25px;
+        transition: $transition-base;
+        border: $border-md solid var(--vt-c-black);
+        border-radius: $radius-full;
         background-color: var(--vt-c-white);
-
-        padding: 10px;
-        width: 20px;
-        height: 20px;
+        padding: $spacing-3;
+        width: $size-icon-sm;
+        height: $size-icon-sm;
         color: var(--vt-c-black);
 
         &:hover {
           cursor: pointer;
-          border: 1px solid var(--vt-c-white);
+          border-color: var(--vt-c-white);
           background-color: var(--vt-c-black);
           color: var(--vt-c-white);
         }

@@ -1,3 +1,5 @@
+@use './tokens.scss' as *;
+
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
   --vt-c-white: #ffffff;
@@ -33,10 +35,11 @@
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
 
-  --section-gap: 160px;
+  --section-gap: $spacing-12;
 
   --color-gold: #ffd700;
   --color-red: #df0000;
+  --color-green: #00bd7e;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -71,14 +74,11 @@
 }
 
 body {
-  transition:
-    color 0.5s,
-    background-color 0.5s;
+  transition: $transition-slow;
   background: var(--color-background);
   min-height: 100vh;
   color: var(--color-text);
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: $font-size-base;
   font-family:
     Inter,
     -apple-system,

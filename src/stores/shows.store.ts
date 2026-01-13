@@ -1,26 +1,9 @@
 import { getShows, searchShows } from '@/api/shows.api'
 import { type Show, type ShowWithScore } from '@/types/types'
+import { clearExpiredCache } from '@/utils/cache'
+import { groupShowsByGenre } from '@/utils/shows'
 import { defineStore } from 'pinia'
 import { useSettingsStore } from './settings.store'
-
-export function clearExpiredCache() {
-  const persistedData = localStorage.getItem('shows')
-
-  if (persistedData) {
-    const data = JSON.parse(persistedData)
-    const cacheDate = data.cacheDate
-
-    if (cacheDate) {
-      const cacheAge = Date.now() - new Date(cacheDate).getTime()
-      const maxAge = 24 * 3600 * 1000
-
-      if (cacheAge > maxAge) {
-        console.log('📺 Cache expired, clearing storage')
-        localStorage.removeItem('shows')
-      }
-    }
-  }
-}
 
 export const useShowsStore = defineStore('shows', {
   state: () => ({
@@ -33,31 +16,8 @@ export const useShowsStore = defineStore('shows', {
 
   getters: {
     genreBasedShows() {
-      const genreBasedShows: Record<string, Show[]> = {}
       const settingsStore = useSettingsStore()
-      const sortingOrder = settingsStore.sortingOrder
-
-      for (const show of this.showsBasedOnSource) {
-        for (const genre of show.genres) {
-          if (!genreBasedShows[genre]) {
-            genreBasedShows[genre] = []
-          }
-
-          genreBasedShows[genre].push(show)
-        }
-      }
-
-      for (const genre of Object.keys(genreBasedShows)) {
-        if (genreBasedShows[genre]) {
-          genreBasedShows[genre] = genreBasedShows[genre].sort((a: Show, b: Show) => {
-            const ratingA = a.rating?.average ?? 0
-            const ratingB = b.rating?.average ?? 0
-            return sortingOrder === 'asc' ? ratingA - ratingB : ratingB - ratingA
-          })
-        }
-      }
-
-      return genreBasedShows
+      return groupShowsByGenre(this.showsBasedOnSource, settingsStore.sortingOrder)
     },
 
     showsBasedOnSource(state) {
@@ -99,12 +59,14 @@ export const useShowsStore = defineStore('shows', {
 
     async getMoreShows(genre: string, newEntries: number) {
       const initialCount = this.genreBasedShows[genre] ? this.genreBasedShows[genre].length : 0
+      let attempts = 0
 
-      while (true) {
+      while (attempts <= 5) {
         const showsFromAPI = await getShows(this.lastFetchedPage)
 
         this.shows.push(...showsFromAPI)
         this.incrementLastFetchedPage()
+        attempts += 1
 
         const currentCount = this.genreBasedShows[genre] ? this.genreBasedShows[genre].length : 0
 
@@ -135,9 +97,7 @@ export const useShowsStore = defineStore('shows', {
     },
 
     getShowById(id: number) {
-      const mergedShows = [...this.shows, ...this.searchedShows]
-
-      return mergedShows.find((show) => show.id === id)
+      return [...this.shows, ...this.searchedShows].find((show) => show.id === id)
     },
   },
 

@@ -82,10 +82,10 @@ watch(
 
 <style lang="scss" scoped>
 .modal {
-  z-index: +1;
+  z-index: $z-index-modal;
   border: none;
   background: transparent;
-  padding: 0;
+  padding: $spacing-0;
   width: 100vw;
   max-width: 100vw;
   height: 100vh;
@@ -108,11 +108,11 @@ watch(
   .inner-modal {
     display: flex;
     position: relative;
-    gap: 40px;
-    margin: 60px auto;
-    border-radius: 10px;
+    gap: $spacing-8;
+    margin: $spacing-10 auto;
+    border-radius: $radius-sm;
     background: var(--vt-c-black);
-    padding: 40px;
+    padding: $spacing-8;
     max-width: 60%;
     height: fit-content;
     overflow: visible;
@@ -128,43 +128,40 @@ watch(
     }
 
     img {
-      border: 1px solid var(--color-text);
-      border-radius: 10px;
-      padding: 2px;
-      aspect-ratio: 2 / 3;
-      width: 300px;
-      height: 400px;
+      border-radius: $radius-sm;
+      aspect-ratio: $aspect-poster;
+      width: $image-lg;
     }
 
     .show-details {
       h2 {
         color: var(--vt-c-white);
         font-weight: 600;
-        font-size: 34px;
+        font-size: $font-size-3xl;
 
         @include breakpoint(medium) {
-          font-size: 24px;
+          font-size: $font-size-2xl;
         }
       }
 
       .tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
-        margin: 10px 0 20px 0;
+        gap: $spacing-3;
+        margin: $spacing-3 $spacing-0 $spacing-4 $spacing-0;
         padding: unset;
         list-style: none;
 
         @include breakpoint(medium) {
-          font-size: 12px;
+          font-size: $font-size-sm;
         }
 
         .tag {
-          border-radius: 25px;
-          padding: 0 10px;
+          border-radius: $radius-lg;
+          padding: $spacing-0 $spacing-3;
 
           &.genre-tag {
-            outline: 1px solid var(--vt-c-white);
+            outline: $border-sm solid var(--vt-c-white);
             color: white;
           }
 
@@ -178,23 +175,23 @@ watch(
 
       @include breakpoint(medium) {
         p {
-          font-size: 12px;
+          font-size: $font-size-sm;
         }
       }
     }
 
     .exit {
       position: absolute;
-      top: 40px;
-      right: 40px;
-      transition: color 0.25s ease-in-out;
+      top: $spacing-8;
+      right: $spacing-8;
+      transition: $transition-base;
       border: none;
       background: none;
       color: var(--vt-c-white);
 
       svg {
-        width: 20px;
-        height: 20px;
+        width: $size-icon-md;
+        height: $size-icon-md;
       }
 
       &:hover {

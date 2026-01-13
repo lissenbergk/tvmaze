@@ -36,33 +36,33 @@ defineProps({
   display: flex;
   position: relative;
   flex-direction: column;
-  transition: transform 0.25s ease-in-out;
-  border-radius: 10px;
+  transition: $transition-base;
+  border-radius: $radius-sm;
 
   img {
     filter: brightness(90%) saturate(90%);
-    transition: filter 0.25s ease-in-out;
-    border-radius: 10px;
-    aspect-ratio: 2 / 3;
-    max-width: 300px;
+    transition: $transition-base;
+    border-radius: $radius-sm;
+    aspect-ratio: $aspect-poster;
+    max-width: $image-lg;
 
     @include breakpoint(medium) {
-      max-width: 200px;
+      max-width: $image-md;
     }
 
     @include breakpoint(small) {
-      max-width: 100px;
+      max-width: $image-sm;
     }
   }
 
   .text {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    left: 10px;
-    border-radius: 10px;
-    background-color: rgb(0 0 0 / 0.5);
-    padding: 10px;
+    top: $spacing-3;
+    right: $spacing-3;
+    left: $spacing-3;
+    border-radius: $spacing-3;
+    background-color: rgb(0 0 0 / 0.75);
+    padding: $spacing-3;
     max-width: 55%;
 
     @include breakpoint(medium) {
@@ -71,7 +71,7 @@ defineProps({
 
     @include breakpoint(small) {
       h2 {
-        font-size: 14px;
+        font-size: $font-size-base;
       }
 
       h4 {
@@ -99,27 +99,27 @@ defineProps({
   .rating {
     display: flex;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: $spacing-3;
+    right: $spacing-3;
     align-content: center;
-    border-radius: 10px;
-    background-color: rgb(0 0 0 / 0.5);
-    padding: 10px;
+    border-radius: $radius-sm;
+    background-color: rgb(0 0 0 / 0.75);
+    padding: $spacing-3;
 
     @include breakpoint(medium) {
       top: unset;
       right: unset;
-      bottom: 10px;
-      left: 10px;
+      bottom: $spacing-3;
+      left: $spacing-3;
     }
 
     @include breakpoint(small) {
-      font-size: 12px;
+      font-size: $font-size-sm;
     }
 
     svg,
     .score {
-      height: 22px;
+      height: $size-icon-md;
     }
 
     svg {

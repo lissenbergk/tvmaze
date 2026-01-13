@@ -27,12 +27,12 @@ const order = computed({
 .order {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: $spacing-5;
 
   select {
-    border-radius: 25px;
+    border-radius: $radius-lg;
     background-color: unset;
-    padding: 5px;
+    padding: $spacing-2;
     color: var(--vt-c-white);
   }
 }
